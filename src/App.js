@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './App.css';
 
 function App() {
@@ -7,7 +8,27 @@ function App() {
   const [receiverUsername, setReceiverUsername] = useState('');
   const [content, setContent] = useState('');
   const [socket, setSocket] = useState(null);  
+  
+  useEffect(() => {
+    if (senderUsername && receiverUsername) {
+      
+      const fetchMessages = async () => {
+        try {
+          const response = await axios.get('http://localhost:3000/messages', {
+            params: {
+              senderUsername,
+              receiverUsername,
+            },
+          });
+          setMessages(response.data);  
+        } catch (error) {
+          console.error('Error fetching messages:', error);
+        }
+      };
 
+      fetchMessages();
+    }
+  }, [senderUsername, receiverUsername]);
   useEffect(() => {
     
     const ws = new WebSocket('ws://localhost:3000'); 
