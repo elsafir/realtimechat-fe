@@ -49,7 +49,7 @@ function App() {
       console.error('WebSocket is not open');
     }
   };
-
+  
   return (
     <div className="App">
       <h1>Realtime Chat</h1>
